@@ -7,6 +7,12 @@
                 'route' => 'dashboard',
                 'current' => request()->routeIs('dashboard')
             ],
+            [
+                'name' => 'Categorias',
+                'icon' => 'newspaper',
+                'route' => 'admin.categories.index',
+                'current' => request()->routeIs('admin.categories.*')
+            ],
         ]
 ];
 @endphp
