@@ -14,5 +14,12 @@ export default defineConfig({
     ],
     server: {
         cors: true,
+        host: 'blogger.tester', 
+
+        hmr: {
+            host: 'blogger.tester', // Importante para la recarga en caliente
+            // Si usas HTTPS, asegúrate de que el protocolo sea el correcto
+            // protocol: 'wss', 
+        },
     },
 });

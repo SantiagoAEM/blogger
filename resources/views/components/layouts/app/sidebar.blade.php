@@ -4,13 +4,13 @@
             [
                 'name' => 'Dashboard',
                 'icon' => 'home',
-                'route' => 'dashboard',
+                'route' =>  route('dashboard'),
                 'current' => request()->routeIs('dashboard')
             ],
             [
                 'name' => 'Categorias',
                 'icon' => 'newspaper',
-                'route' => 'admin.categories.index',
+                'route' => route('admin.categories.index'),
                 'current' => request()->routeIs('admin.categories.*')
             ],
         ]
