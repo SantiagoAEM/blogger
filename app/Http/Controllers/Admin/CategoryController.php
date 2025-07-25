@@ -13,7 +13,7 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $categories = Category::all();
+        $categories = Category::orderby('id','desc') ->get();
         return view('admin.categories.index', compact('categories'));
     }
 
@@ -22,7 +22,7 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        //
+       return view('admin.categories.create');
     }
 
     /**
@@ -30,8 +30,14 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        //
-    }
+       $data = $request->validate([
+        'name' => 'required|string|min:3|max:255',
+       ]);
+
+       Category::create($data);
+
+       return redirect()->route('admin.categories.index')->with('success', 'Category created');
+ }
 
     /**
      * Display the specified resource.
@@ -46,7 +52,7 @@ class CategoryController extends Controller
      */
     public function edit(Category $category)
     {
-        //
+        return view('admin.categories.edit', compact('category'));
     }
 
     /**
@@ -54,7 +60,13 @@ class CategoryController extends Controller
      */
     public function update(Request $request, Category $category)
     {
-        //
+        $data = $request->validate([
+        'name' => 'required|string|min:3|max:255',
+        ]);
+
+        $category->update($data);
+
+         return redirect()->route('admin.categories.index')->with('success', 'Category updated');
     }
 
     /**
