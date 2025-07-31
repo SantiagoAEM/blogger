@@ -51,7 +51,14 @@
                         <td class="px-6 py-4 text-right">
                              <div class="flex items-center justify-end space-x-4"> 
                                 <a href="{{route('admin.categories.edit', $category)}}" class="font-medium text-blue-600 dark:text-sky-300 hover:underline px-5"><flux:icon.pencil-square/></a>
-                                <a href="" class="font-medium text-red-600 dark:text-red-500 hover:underline"><flux:icon.x-mark/></a>
+                                <form action="{{ route('admin.categories.destroy', $category) }}" method="POST" onsubmit="return confirm('¿Estás seguro de que quieres eliminar esta categoría?');">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="font-medium text-red-600 dark:text-red-500  dark:hover:bg-red-700 dark:focus:ring-red-900">
+                                        <flux:icon.x-mark/>
+                                    </button>
+                                    
+                                </form>
                             </div>
                         </td>
                     </tr>
