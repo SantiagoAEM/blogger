@@ -12,8 +12,9 @@ class TagController extends Controller
      * Display a listing of the resource.
      */
     public function index()
-    {
-        //
+    {       
+        $tags = Tag::orderby('id','desc') -> get();
+        return view ('admin.tags.index', compact('tags'));
     }
 
     /**
@@ -21,7 +22,8 @@ class TagController extends Controller
      */
     public function create()
     {
-        //
+      $tags = Tag::all();
+      return view('admin.tags.create', compact('tags'));
     }
 
     /**
@@ -29,7 +31,19 @@ class TagController extends Controller
      */
     public function store(Request $request)
     {
-        //
+       $data = $request->validate([
+            'name'=> 'required|string|min:3|max:255|unique:tags,name',
+       ]);
+
+       Tag::create($data);
+
+       session()->flash('swal',[
+            'icon'=>'succsess',
+            'title'=>'!Tag creado con exito¡',
+            'text'=>'El tag creado correctamente'
+       ]);
+
+      return redirect()->route('admin.tags.index');
     }
 
     /**
@@ -45,7 +59,7 @@ class TagController extends Controller
      */
     public function edit(Tag $tag)
     {
-        //
+        return view('admin.tags.edit', compact('tag'));
     }
 
     /**
@@ -53,7 +67,19 @@ class TagController extends Controller
      */
     public function update(Request $request, Tag $tag)
     {
-        //
+         $data = $request->validate([
+            'name'=> "required|string|min:3|max:255|unique:tags,name, {$tag -> id}",
+       ]);
+
+        $tag->update($request->all());
+
+        session()->flash('swal',[
+            'icon'=>'succsess',
+            'title'=>'!Tag actualizado con exito¡',
+            'text'=>'El tag actualizado correctamente'
+        ]);
+
+        return redirect()->route('admin.tags.edit',$tag);
     }
 
     /**
@@ -61,6 +87,14 @@ class TagController extends Controller
      */
     public function destroy(Tag $tag)
     {
-        //
+        $tag->delete();
+
+        session()->flash('swal',[
+            'icon'=>'succsess',
+            'title'=>'!Tag eliminadi con exito¡',
+            'text'=>'El tag eliminado correctamente'
+        ]);
+
+        return redirect()->route('admin.tags.index');
     }
 }
