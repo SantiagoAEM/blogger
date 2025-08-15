@@ -52,7 +52,7 @@
                         <td class="px-6 py-4 text-right">
                              <div class="flex items-center justify-end space-x-4"> 
                                 <a href="{{route('admin.posts.edit', $post)}}" class="font-medium text-blue-600 dark:text-sky-300 hover:underline px-5"><flux:icon.pencil-square/></a>
-                                <form action="{{ route('admin.posts.destroy', $post) }}" method="POST" onsubmit="return confirm('¿Estás seguro de que quieres eliminar esta categoría?');">
+                                <form action="{{ route('admin.posts.destroy', $post) }}" method="POST" class="delete-form">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit" class="font-medium text-red-600 dark:text-red-500  dark:hover:bg-red-700 dark:focus:ring-red-900">
@@ -68,7 +68,36 @@
         </table>    
     </div>
     <div class="mt-2">
-        {{$posts->links()}}
+        {{$posts->links()}} {{-- paginacion --}}
     </div>
+
+     @push('jss')
+        <script>
+            forms= document.querySelectorAll('.delete-form');
+            forms.forEach(form => {
+                form.addEventListener('submit',(e) => {
+                    e.preventDefault();
+
+                    Swal.fire({
+                        title: "Are you sure?",
+                        text: "You won't be able to revert this!",
+                        icon: "warning",
+                        showCancelButton: true,
+                        confirmButtonColor: "#3085d6",
+                        cancelButtonColor: "#d33",
+                        confirmButtonText: "Yes, delete it!"
+                        
+                        }).then((result) => {
+
+                            if (result.isConfirmed) {
+                            form.submit();
+                            }
+                        });
+                })
+            });
+
+           
+        </script>
+    @endpush
 
 </x-layouts.app>
