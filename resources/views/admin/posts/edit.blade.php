@@ -58,13 +58,43 @@
                     {{old('excerpt',$post->excerpt)}}
                 </flux:textarea>
 
-                <flux:textarea label="Content" name="content" rows="12">
-                    {{old('content',$post->content)}}
-                </flux:textarea>
+                {{-- <flux:textarea label="Content" name="content" rows="12">
+                    
+                </flux:textarea> --}}
+                </flux:field>
 
-            </flux:field>
-  
+                <!-- Create the editor container -->
+                <div>
+                    <p class="font-medium mb-1">
+                        Content
+                    </p>
+                    <div id="editor">{!! old('content',$post->content)!!}</div>
+                    <textarea  class="hidden" name="content" id="content" >{{old('content',$post->content)}}</textarea>
+                        
+                </div>
+               
+
+            
+
+            <flux:label>Tags</flux:label>
+
+                <ul>
+                    @foreach ($tags as $tag)
+                        <li>
+                            <label class="flex items-center space-x-2">
+                                <input type="checkbox" name="tags[]" value="{{$tag->id}}"
+                                    @checked(in_array($tag->id, old('tags',$post->tags->pluck('id')->toArray())))
+                                >
+                                 {{-- <input type="checkbox" name="tags[]" value="{{$tag->id}}" @checked($post->tags->contains($tag->id))> Manera mas facil--}}
+                                     <span>{{$tag->name}}</span>
+                            </label>
+                        </li>
+                        
+                    @endforeach
+                </ul>
+
             <flux:field>
+
                 <label for="is_published" class="relative inline-flex items-center cursor-pointer">
                     <input type="hidden" name="is_published" value="0">
                     <input type="checkbox" name="is_published" id="is_published" class="sr-only peer" @checked(old('is_published',$post->is_published) == 1) value="1")>
@@ -82,7 +112,14 @@
         </form>
     </div>
 
+      @push('cs')
+
+        <!-- Include stylesheet -->
+        <link href="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.snow.css" rel="stylesheet" />
+        
+    @endpush
     @push('jss')
+  
         <script>
             function previewImage(event, querySelector){
                 let input = event.target;
@@ -100,4 +137,22 @@
             }
         </script>
     @endpush
+
+    @push('jss')
+        <!-- Include the Quill library -->
+        <script src="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.js"></script>
+
+        <!-- Initialize Quill editor -->
+        <script>
+        const quill = new Quill('#editor', {
+            theme: 'snow'
+        });
+
+        quill.on('text-change', function(){
+            document.querySelector('#content').value = quill.root.innerHTML;
+        });
+        </script>
+
+    @endpush
+
 </x-layouts.app>

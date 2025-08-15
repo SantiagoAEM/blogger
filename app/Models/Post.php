@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+
 class Post extends Model
 {
     /** @use HasFactory<\Database\Factories\PostFactory> */
@@ -25,4 +26,8 @@ class Post extends Model
         'is_published'=> 'boolean',
         'published_at'=>'datetime',
     ];
+
+    public function tags(){
+        return  $this->belongsToMany(Tag::class);
+    }
 }
