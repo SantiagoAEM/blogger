@@ -133,7 +133,7 @@
 
                 imgPreview.src = objectURL;
                 imgPreview.classList.remove("hidden"); // <-- Mostrar si estaba oculto
-                svgImage.classList.add("none");
+                svgImage.classList.add("hidden");
             }
         </script>
     @endpush

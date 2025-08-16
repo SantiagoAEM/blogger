@@ -82,6 +82,8 @@ class PostController extends Controller
             'is_published'=> 'required|boolean',
         ]);
 
+      
+
         if ($request->hasFile('image')) {
 
             if ($post->image_path) {
