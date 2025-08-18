@@ -2,10 +2,10 @@
     $links = [
        
             [
-                'name' => 'Home',
+                'name' => 'Posts',
                 'icon' => 'layout-grid',
-                'url' =>  route('home'),
-                'current' => request()->routeIs('home')
+                'url' =>  route('posts.index'),
+                'current' => request()->routeIs('posts.*')
             ],
 ];
 @endphp
